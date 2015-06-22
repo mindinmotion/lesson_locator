@@ -1,16 +1,9 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
-felden.dev.wsgi
+lesson_locator.dev.wsgi
 
 Copyright (c) 2014 Kevin Cureton/Nik Gervae
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -23,15 +16,10 @@ import sys
 import pyramid.config
 import wsgiref.simple_server
 
+LESSON_LOCATOR_ROOT = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
+sys.path.append(os.path.join(LESSON_LOCATOR_ROOT, "python"))
 
-# ---------------------------------------------------------------
-# Configure the Python environment
-# ---------------------------------------------------------------
-sys.path.append("/Users/kcureton/Documents/work/felden/python")
-sys.path.append("/Users/nik/Programming/felden/python")
-
-import felden.configurator
-
+import lesson_locator.configurator
 
 # ---------------------------------------------------------------------------------------------
 # Setup and run the Pyramind WSGI application.
@@ -39,7 +27,7 @@ import felden.configurator
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger()
 
-config = felden.configurator.getPyramidConfigurator(is_dev_server=True)
+config = lesson_locator.configurator.getPyramidConfigurator(is_dev_server=True)
 
 application = config.make_wsgi_app()
 
