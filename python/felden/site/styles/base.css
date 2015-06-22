@@ -1,0 +1,89 @@
+/*
+ * base.css
+ *
+ * CSS relating to the entire site.
+ *
+ * Copyright 2014, Kevin Cureton/Nik Gervae
+ *
+ */
+
+
+/*
+ * Styles governing the div wrapping the
+ * content of every web page.
+ */
+.full_page {
+    display: -webkit-flex;
+    -webkit-flex-flow: column;
+    display: flex;
+    flex-flow: column;
+}
+
+
+/*
+ * Styled divider
+ *
+ * <hr class="divider">
+ */
+.divider {
+    border-top: 1px solid #ABAA9A;
+    clear: both;
+} 
+
+/*
+ * Media display box
+ *
+ * <div class="media">
+ *   <img src="foo.png" alt="Foo Image" />
+ *   <div class="media_body">
+ *   </div>
+ * </div>
+ */
+.media {
+    overflow: hidden;
+    overflow: visible;
+    zoom: 1;
+    margin: 10px;
+}
+
+.media .img {
+    float: left;
+    margin-right: 10px;
+}
+
+.media .img img {
+    display: block;
+}
+
+.media .imgExt {
+    float: right;
+    margin-left: 10px;
+}
+
+/*
+ * Lesson display
+ */
+.lesson_list {
+    list-style: none;
+    margin-left: 0px;
+}
+
+.lesson_annotations {
+    background: thistle;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.lesson_detail {
+    background: bisque;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.lesson_lines {
+    list-style: none;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{#
+    base.jinja2
+
+    Copyright 2014, Kevin Cureton/Nik Gervae
+#}
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/base.css">
+
+        {% block additional_css %}
+        {% endblock %}
+
+        <title>{{ title }}</title>
+
+    </head>
+
+    <body>
+        <div class="full_page">
+        {% block full_page %}
+        <h3>Default Content Text</h3><br>
+        {% endblock %}
+        </div>        
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+        {% block additional_javascript %}
+        {% endblock %}
+    </body>
+
+</html>

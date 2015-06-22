@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+# ---------------------------------------------------------------------------------------------
+"""
+addAnnotations
+
+Copyright (c) 2015 Kevin Cureton/Nik Gervae
+"""
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# TODO
+#
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# Imports
+# ---------------------------------------------------------------------------------------------
+import datetime
+import json
+import os
+import re
+import string
+import sys
+
+
+# ---------------------------------------------------------------------------------------------
+# Globals
+# ---------------------------------------------------------------------------------------------
+
+LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_SETS = [
+    "alexander_yanai"
+]
+
+# ---------------------------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------------------------
+def main():
+    """
+    Please run "addAnnotations --help" for the usage message.
+    """
+    ANNOTATED_LESSONS = os.path.join(LESSONS_TOP, LESSON_SETS[0], "annotated")
+    ANNOTATIONS_FILE = os.path.join(LESSONS_TOP, LESSON_SETS[0], "annotations", sys.argv[1])
+
+    print("Processing annotations in %s..." % ANNOTATIONS_FILE)
+
+    fh = open(ANNOTATIONS_FILE)
+    annotations = fh.read()
+    fh.close()
+
+    # Parse the input file.
+    sections = list()
+    section = dict()
+    for line in annotations.split("\n"):
+        line = string.strip(line)
+
+        if re.search(r'\s*#', line):
+            continue
+
+        line = re.sub(r'\s*#.*$', '', line)
+
+        mobj = re.search(r'^([\w\-]+):\s+(.*)$', line)
+        if mobj:
+            attr_name = mobj.group(1)
+            attr_value = mobj.group(2)
+            if not attr_name in section:
+                section[attr_name] = list()
+            section[attr_name].append(attr_value)
+            continue
+
+        mobj = re.search(r'^\s*$', line)
+        if mobj:
+            # Start of a new section indicated by blank line
+            if len(section):
+                # Only add the previous section to the list
+                sections.append(section)
+                section = dict()
+
+    if len(section):
+        sections.append(section)
+
+    # Iterate over each section and update the appropriate lesson.
+    for section in sections:
+        print(section)
+        lesson_id = section['id'][0]
+        lesson_number = int(string.split(lesson_id, "-")[1])
+        lesson_name = "%04d" % lesson_number
+
+        appropriate_lesson = os.path.join(ANNOTATED_LESSONS, "ay_%s.json" % lesson_name)
+
+        fh = open(appropriate_lesson)
+        lesson_json = json.load(fh)
+        fh.close()
+
+        lesson_json['annotations'] = dict()
+
+        print("APPROPRIATE LESSON: %s" % appropriate_lesson)
+
+        for item in section.keys():
+            print("    %s: %s" % (item, section[item]))
+            if item == 'id':
+                lesson_json['annotations']['id'] = section['id'][0]
+            elif item == 'name':
+                lesson_json['annotations']['name'] = section['name'][0]
+            else:
+                lesson_json['annotations'][item] = section[item]
+
+        fh = open(appropriate_lesson, "w")
+        json.dump(lesson_json, fh, indent=4)
+        fh.close()
+
+#        print(lesson_json['annotations'])
+
+
+# ---------------------------------------------------------------------------------------------
+# Module test harness
+# ---------------------------------------------------------------------------------------------
+if __name__ == "__main__":
+    exit_status = main()
+    sys.exit(exit_status)

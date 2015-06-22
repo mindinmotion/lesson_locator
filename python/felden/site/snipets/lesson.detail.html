@@ -1,0 +1,19 @@
+<div ng-controller="LessonDetailController">
+    <h2>Lesson #{[lesson.number]} - {[lesson.description]}</h2>
+    <div class="lesson_annotations">
+        <h3>{[lesson.annotations.name]}</h3>
+        <h4>Movement of - {[lesson.annotations.movement_of.join(', ')]}</h4>
+        <h4>Sided - {[lesson.annotations.sided.join(', ')]}</h4>
+        <h4>Basic position - {[lesson.annotations.basic_position.join(', ')]}</h4>
+        <h4>Movement gestalt - {[lesson.annotations.movement_gestalt.join(', ')]}</h4>
+    </div>
+    <div class="lesson_detail" ng-repeat="section in lesson.sections track by $index">
+        <h4>Instruction #{[section.label]}</h4>
+        <ul class="lesson_lines" ng-repeat="line in section.text track by $index">
+            <li>{[line]}</li>
+        </ul>
+        <br>
+    </div>
+
+    <h4>End of lesson</h4>
+</div>

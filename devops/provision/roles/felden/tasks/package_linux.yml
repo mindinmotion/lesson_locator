@@ -1,0 +1,11 @@
+---
+- name: Install Linux packages
+  remote_user: ubuntu
+  sudo: true
+  apt: name={{ item }} state=present
+  with_items:
+    - nginx
+    - python
+    - python-pip
+    - uwsgi
+    - uwsgi-plugin-python

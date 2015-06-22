@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# ---------------------------------------------------------------------------------------------
+"""
+reformatJSON
+
+Copyright (c) 2015 Kevin Cureton/Nik Gervae
+"""
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# TODO
+#
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# Imports
+# ---------------------------------------------------------------------------------------------
+import datetime
+import json
+import os
+import re
+import string
+import sys
+
+
+# ---------------------------------------------------------------------------------------------
+# Globals
+# ---------------------------------------------------------------------------------------------
+
+LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_SETS = [
+    "alexander_yanai"
+]
+
+# ---------------------------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------------------------
+def main():
+    """
+    Please run "reformatJSON --help" for the usage message.
+    """
+    LESSONS_PATH = os.path.join(LESSONS_TOP, LESSON_SETS[0])
+
+    print("Examining lessons %s..." % LESSONS_PATH)
+
+    for item in os.listdir(LESSONS_PATH):
+        if item == ".DS_Store": continue
+
+        print("    found: %s" % item)
+
+        item_path = os.path.join(LESSONS_PATH, item)
+
+        fh = open(item_path)
+        lesson_raw_text = fh.read()
+        fh.close()
+
+        lesson_raw_text_reencoded = lesson_raw_text.decode('mac-roman').encode('utf-8')
+        lesson_text = re.sub(r'\r\n?', '\n', lesson_raw_text_reencoded)
+
+        fh = open(item_path, "w")
+        for line in lesson_text:
+            fh.write(line)
+        fh.close()
+
+
+# ---------------------------------------------------------------------------------------------
+# Module test harness
+# ---------------------------------------------------------------------------------------------
+if __name__ == "__main__":
+    exit_status = main()
+    sys.exit(exit_status)

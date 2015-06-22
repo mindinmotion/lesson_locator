@@ -1,0 +1,24 @@
+---
+- template: src="etc/httpd/conf-available/local.conf.erb"
+            dest="/etc/httpd/conf-available/local.conf"
+            mode="644"
+            owner="root"
+            group="root"
+
+- template: src="etc/httpd/ssl/apache.crt"
+            dest="/etc/httpd/ssl/apache.crt"
+            mode="644"
+            owner="root"
+            group="root"
+
+- template: src="etc/httpd/ssl/apache.key"
+            dest="/etc/httpd/ssl/apache.key"
+            mode="644"
+            owner="root"
+            group="root"
+
+link "/etc/httpd/conf-enabled/local.conf" do
+    to "/etc/httpd/conf-available/local.conf"
+    action :create
+end
+

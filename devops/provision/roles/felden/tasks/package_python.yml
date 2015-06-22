@@ -1,0 +1,10 @@
+---
+- name: Install Python packages
+  remote_user: ubuntu
+  sudo: true
+  pip: name={{ item }} state=present
+  with_items:
+    - Fabric
+    - flask
+    - requests
+    - uwsgi

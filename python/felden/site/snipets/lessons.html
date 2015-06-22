@@ -1,0 +1,18 @@
+<div>
+    <h3><a ui-sref="lessons.list">List of All Lessons</a></h3>
+    <hr>
+    <h3>Search</h3>
+        <div class="layout-flow-column">
+            <form action="/lessons/search" method="GET">
+                <div class="layout-flow-column">
+                    <input type=search name="search" autofocus="true"/><br>
+                </div> 
+                <div class="layout-flow-column">
+                    <input type=submit /><br>
+                </div> 
+            </form>
+        </div> 
+
+    <hr>
+    <div ui-view></div>
+</div>

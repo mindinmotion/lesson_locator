@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{#
+    base_logged_in.jinja2
+
+    Copyright 2014, Kevin Cureton/Nik Gervae
+#}
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/base.css">
+
+        {% block additional_css %}
+        {% endblock %}
+
+        <title>{{ title }}</title>
+
+    </head>
+
+    <body>
+        <div class="full_page">
+        {% block full_page %}
+        {% endblock %}
+        </div>
+ 
+        <script type="text/javascript" src="/js/other/jquery/2.1.0/jquery-2.1.0.min.js"></script>
+
+        {% block additional_javascript %}
+        {% endblock %}
+
+    </body>
+</html>

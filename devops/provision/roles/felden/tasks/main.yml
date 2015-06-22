@@ -1,0 +1,4 @@
+---
+- include: packages_linux.yml
+- include: packages_python.yml
+- include: httpd.yml

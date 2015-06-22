@@ -1,0 +1,189 @@
+#!/usr/bin/env python
+# ---------------------------------------------------------------------------------------------
+"""
+parseLessons
+
+Read each lesson in the given directory location and parse it.
+
+Copyright (c) 2014 Kevin Cureton/Nik Gervae
+"""
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# TODO
+#
+# ---------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------
+# Imports
+# ---------------------------------------------------------------------------------------------
+import datetime
+import json
+import os
+import re
+import string
+import sys
+
+import pyramid.renderers
+import pyramid.view
+
+
+# ---------------------------------------------------------------------------------------------
+# Globals
+# ---------------------------------------------------------------------------------------------
+
+LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_SETS = [
+    "alexander_yanai"
+]
+
+# ---------------------------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------------------------
+def main():
+    """
+    Please run "parseLessons --help" for the usage message.
+    """
+    LESSONS_PATH = os.path.join(LESSONS_TOP, LESSON_SETS[0])
+    ORIGINAL_LESSONS_PATH = os.path.join(LESSONS_PATH, "original")
+    ANNOTATED_LESSONS_PATH = os.path.join(LESSONS_PATH, "annotated")
+
+    if not os.path.exists(ANNOTATED_LESSONS_PATH):
+        os.mkdir(ANNOTATED_LESSONS_PATH)
+
+    print("Scanning original lessons in %s..." % ORIGINAL_LESSONS_PATH)
+
+    for item in os.listdir(ORIGINAL_LESSONS_PATH):
+        if item == ".DS_Store": continue
+
+        print("    found: %s" % item)
+
+        item_path = os.path.join(ORIGINAL_LESSONS_PATH, item)
+
+        lesson_number = None
+        lesson_description = None
+        mobj = re.search(r'^AY\s+(\d+)\s*-\s*(.+)\.txt$', item)
+        if mobj:
+            lesson_number = mobj.group(1)
+            lesson_description = mobj.group(2)
+
+            print("        number: %s" % lesson_number)
+            print("        description: %s" % lesson_description)
+
+            lesson = dict()
+            lesson['number'] = lesson_number
+            lesson['description'] = lesson_description
+
+            fh = open(item_path)
+            lesson_raw_text = fh.read()
+            fh.close()
+            lesson_text = re.split(r'\n', lesson_raw_text)
+#            lesson_raw_text_reencoded = lesson_raw_text.decode('mac-roman').encode('utf-8')
+#            lesson_text = re.split(r'\n', lesson_raw_text_reencoded)
+
+            lesson['text'] = lesson_text
+            lesson['parsed'] = parseLesson(lesson_text)
+
+            if lesson['parsed']['end_of_lesson'] is None:
+                print("        lesson has no 'end of lesson' marker")
+
+            lesson_json = json.dumps(lesson, indent=4)
+            annotated_lesson_path = os.path.join(ANNOTATED_LESSONS_PATH, "ay_%04d.json" % int(lesson_number))
+            fh = open(annotated_lesson_path, "w")
+            fh.write(lesson_json)
+            fh.close()
+
+        else:
+            print("ERROR: File name not understood: %s" % item)
+
+    return 0
+
+
+def parseLesson(lesson_text):
+    """
+    Parse the lesson text and return of dictionary of
+    the parsed lesson.
+    """
+    lesson_parsed = dict()
+
+    lesson_parsed['section_starts'] = list()
+    lesson_parsed['sections'] = list()
+    lesson_parsed['end_of_lesson'] = None
+    lesson_parsed['source'] = None
+    lesson_parsed['title'] = None
+    lesson_parsed['number'] = None
+
+    end_of_lesson_markers = [
+        r'^\s*\(End\s+of\s+lesson',
+        r'^\s*\(End\s+of\s+lecture',
+        r'^\(End\s+of\s+recording',
+        r'^\[End\s+of\s+recording',
+        r'^\[End\s+of\s+the\s+recording',
+        r'^\(End of the recording',
+        r'^\[End\s+of\s+the\s+tape',
+        r'^\(End\s+of\s+audible\s+portion\s+of\s+the\s+lesson',
+        r'^\[Note\:\s+This\s+is\s+the\s+end\s+of\s+the\s+recording',
+    ]
+
+    # Do a parsing pass of the overall lesson text. This information will be used
+    # to compile the lesson into a form useful for display and use markup.
+    line_number = 0
+    for line in lesson_text:
+        mobj = re.search(r'^Source:\s+(.+)$', line)
+        if mobj:
+            # WORKING HERE
+            pass
+
+        if re.search(r'^\d+[a-z]?\.', line):
+            lesson_parsed['section_starts'].append(line_number)
+            line_number += 1
+            continue
+
+        found_end_of_lesson = False 
+        for end_of_lesson_marker in end_of_lesson_markers:
+            if re.search(end_of_lesson_marker, line):
+                lesson_parsed['end_of_lesson'] = line_number
+                line_number += 1
+                found_end_of_lesson = True
+                break
+
+        if found_end_of_lesson:
+            continue
+
+        for end_of_lesson_marker in end_of_lesson_markers:
+            if re.search(end_of_lesson_marker, line):
+                lesson_parsed['end_of_lesson'] = line_number
+                line_number += 1
+                break
+
+        if lesson_parsed['end_of_lesson'] is not None:
+            continue
+
+        # Remove tabs from the start of a line.
+        # Replace tabs between the number and the start of text with a space.
+        # Skip "This page is included for printing and binding purposes"
+        # Footnotes "[fnX]" will need to be linked.
+
+        line_number += 1
+
+
+    # Now compile the lesson instructions into their own things.
+
+    idx = 0
+
+    new_section = list()
+    for section_line in xrange(lesson_parsed['section_starts'][idx], lesson_parsed['section_starts'][idx+1]:
+        section_start_text = lesson_text[section_line]
+        lesson_parsed['sections'].append(lesson_text[section_line])
+
+
+
+    return lesson_parsed
+
+
+# ---------------------------------------------------------------------------------------------
+# Module test harness
+# ---------------------------------------------------------------------------------------------
+if __name__ == "__main__":
+    exit_status = main()
+    sys.exit(exit_status)
