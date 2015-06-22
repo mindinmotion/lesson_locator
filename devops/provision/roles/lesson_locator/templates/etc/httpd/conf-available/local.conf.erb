@@ -22,14 +22,14 @@ LoadModule ssl_module modules/mod_ssl.so
 #</Location>
 
 <VirtualHost *:80>
-    WSGIScriptAlias / /var/www/code/site/felden.prod.wsgi
+    WSGIScriptAlias / /var/www/code/site/lesson_locator.prod.wsgi
     WSGIPassAuthorization On
     ServerName 10.0.0.10
 #    Redirect / https://localhost/
 </VirtualHost>
 
 <VirtualHost *:443>
-    WSGIScriptAlias / /var/www/code/site/felden.prod.wsgi
+    WSGIScriptAlias / /var/www/code/site/lesson_locator.prod.wsgi
     WSGIPassAuthorization On
     ServerName 10.0.0.10
     SSLEngine on
