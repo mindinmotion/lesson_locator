@@ -18,6 +18,8 @@ import string
 import pyramid.renderers
 import pyramid.view
 
+import const
+
 # ---------------------------------------------------------------------------------------------
 # Globals
 # ---------------------------------------------------------------------------------------------
@@ -143,7 +145,7 @@ def getLessonById(lesson_id):
                     section['text'][0] = re.sub(r'^\d+\w?\.\s*', "", section['text'][0])
 
             lesson['sections'].append(section)
-        
+
             previous_section_start = next_section_start
 
     return lesson
@@ -152,7 +154,11 @@ def getLessonById(lesson_id):
 def getDataDir():
     """ Get the appropriate data directory.
     """
-    data_dir = os.path.join(LESSON_LOCATOR_ROOT, "data/alexander_yanai/annotated")
+    if const.LESSON_LOCATOR_ROOT is None:
+        msg = "Required value, const.LESSON_LOCATOR_ROOT, is not available"
+        raise LessonLocatorAPIError(msg)
+
+    data_dir = os.path.join(const.LESSON_LOCATOR_ROOT, "data/alexander_yanai/annotated")
     return data_dir
 
 #    data_dir_dev = "/Users/kcureton/Documents/work/felden/data/alexander_yanai/annotated"
@@ -162,6 +168,10 @@ def getDataDir():
 #    data_dir_prod = "/var/www/code/felden/data/alexander_yanai/annotated"
 #    if os.path.exists(data_dir_prod):
 #        return data_dir_prod
+
+
+class LessonLocatorAPIError(Exception):
+    pass
 
 
 # ---------------------------------------------------------------------------------------------
