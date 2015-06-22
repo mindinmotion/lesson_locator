@@ -1,19 +1,11 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
-felden/configurator.py
+lesson_locator/configurator.py
 
 The Pyramid configurator object for the site.
 
-Copyright (c) 2014 Next Education LLC
+Copyright (c) 2015 Mind In Motion
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-#
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -26,7 +18,7 @@ import pyramid.config
 import pyramid.renderers
 import pyramid.view
 
-import felden
+import lesson_locator
 
 # ---------------------------------------------------------------------------------------------
 # Globals
@@ -55,7 +47,7 @@ def getPyramidConfigurator(is_dev_server=False):
     config.include('pyramid_jinja2')
 
     # Scan the code for view declarations.
-    config.scan(felden)
+    config.scan(lesson_locator)
 
     # Setup the views.
     config.add_route('index', '/')
@@ -65,10 +57,10 @@ def getPyramidConfigurator(is_dev_server=False):
     config.add_route('api.lesson', '/api/lesson/{lesson_id}')
 
     # Setup the static content.
-    config.add_static_view("js", "felden:site/js/")
-    config.add_static_view("snipets", "felden:site/snipets/")
-    config.add_static_view("static", "felden:site/static/")
-    config.add_static_view("styles", "felden:site/styles/")
+    config.add_static_view("js", "lesson_locator:site/js/")
+    config.add_static_view("snipets", "lesson_locator:site/snipets/")
+    config.add_static_view("static", "lesson_locator:site/static/")
+    config.add_static_view("styles", "lesson_locator:site/styles/")
 
     return config
 
@@ -77,5 +69,5 @@ def getPyramidConfigurator(is_dev_server=False):
 # Module test harness
 # ---------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    print "This is the test harness for the module"
+    print("This is the test harness for the module")
     sys.exit(0)

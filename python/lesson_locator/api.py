@@ -1,19 +1,11 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
 api.py
 
 The API for the Felden Lesson Locator site.
 
-Copyright (c) 2014 Kevin Cureton/Nik Gervae
+Copyright (c) 2015 Mind In Motion
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-#
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -25,7 +17,6 @@ import string
 
 import pyramid.renderers
 import pyramid.view
-
 
 # ---------------------------------------------------------------------------------------------
 # Globals
@@ -161,19 +152,21 @@ def getLessonById(lesson_id):
 def getDataDir():
     """ Get the appropriate data directory.
     """
-    #data_dir_dev = "/Users/kevin/Documents/work/felden/data/alexander_yanai/annotated"
-    data_dir_dev = "/Users/kcureton/Documents/work/felden/data/alexander_yanai/annotated"
-    if os.path.exists(data_dir_dev):
-        return data_dir_dev
+    data_dir = os.path.join(LESSON_LOCATOR_ROOT, "data/alexander_yanai/annotated")
+    return data_dir
 
-    data_dir_prod = "/var/www/code/felden/data/alexander_yanai/annotated"
-    if os.path.exists(data_dir_prod):
-        return data_dir_prod
+#    data_dir_dev = "/Users/kcureton/Documents/work/felden/data/alexander_yanai/annotated"
+#    if os.path.exists(data_dir_dev):
+#        return data_dir_dev
+#
+#    data_dir_prod = "/var/www/code/felden/data/alexander_yanai/annotated"
+#    if os.path.exists(data_dir_prod):
+#        return data_dir_prod
 
 
 # ---------------------------------------------------------------------------------------------
 # Module test harness
 # ---------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    print "This is the test harness for the module"
+    print("This is the test harness for the module")
     sys.exit(0)

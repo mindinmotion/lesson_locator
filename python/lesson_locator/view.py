@@ -1,19 +1,11 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
 view.py
 
 The views for the Felden Lesson Locator site.
 
-Copyright (c) 2014 Kevin Cureton/Nik Gervae
+Copyright (c) 2015 Mind In Motion
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-#
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -30,8 +22,6 @@ import pyramid.view
 # Globals
 # ---------------------------------------------------------------------------------------------
 
-DATA_DIR = "/Users/kevin/Documents/work/felden/data/alexander_yanai/annotated"
-#DATA_DIR = "/Users/kevin/Documents/work/felden/data"
 
 # ---------------------------------------------------------------------------------------------
 # View methods
@@ -41,7 +31,7 @@ def indexPage(request):
     """
     The index (starting) page for the Feldenkrais Lesson Locator.
     """
-    response = pyramid.renderers.render_to_response("felden:site/index.jinja2",
+    response = pyramid.renderers.render_to_response("lesson_locator:site/index.jinja2",
                                                     dict(),
                                                     request=request)
     return response
@@ -52,5 +42,5 @@ def indexPage(request):
 # Module test harness
 # ---------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    print "This is the test harness for the module"
+    print("This is the test harness for the module")
     sys.exit(0)

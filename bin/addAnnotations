@@ -22,12 +22,14 @@ import re
 import string
 import sys
 
+LESSON_LOCATOR_ROOT = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
+sys.path.append(os.path.join(LESSON_LOCATOR_ROOT, "python"))
 
 # ---------------------------------------------------------------------------------------------
 # Globals
 # ---------------------------------------------------------------------------------------------
 
-LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_LOCATOR_DATA = os.path.join(LESSON_LOCATOR_ROOT, "data")
 LESSON_SETS = [
     "alexander_yanai"
 ]
@@ -39,8 +41,8 @@ def main():
     """
     Please run "addAnnotations --help" for the usage message.
     """
-    ANNOTATED_LESSONS = os.path.join(LESSONS_TOP, LESSON_SETS[0], "annotated")
-    ANNOTATIONS_FILE = os.path.join(LESSONS_TOP, LESSON_SETS[0], "annotations", sys.argv[1])
+    ANNOTATED_LESSONS = os.path.join(LESSON_LOCATOR_DATA, LESSON_SETS[0], "annotated")
+    ANNOTATIONS_FILE = os.path.join(LESSON_LOCATOR_DATA, LESSON_SETS[0], "annotations", sys.argv[1])
 
     print("Processing annotations in %s..." % ANNOTATIONS_FILE)
 

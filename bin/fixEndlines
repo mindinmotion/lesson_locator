@@ -1,17 +1,9 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
 fixEndlines
 
-Copyright (c) 2014 Kevin Cureton/Nik Gervae
+Copyright (c) 2015 Mind In Motion
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-#
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -25,12 +17,14 @@ import sys
 import pyramid.renderers
 import pyramid.view
 
+LESSON_LOCATOR_ROOT = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
+sys.path.append(os.path.join(LESSON_LOCATOR_ROOT, "python"))
 
 # ---------------------------------------------------------------------------------------------
 # Globals
 # ---------------------------------------------------------------------------------------------
 
-LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_LOCATOR_DATA = os.path.join(LESSON_LOCATOR_ROOT, "data")
 LESSON_SETS = [
     "alexander_yanai"
 ]
@@ -40,9 +34,9 @@ LESSON_SETS = [
 # ---------------------------------------------------------------------------------------------
 def main():
     """
-    Please run "parseLessons --help" for the usage message.
+    Please run "fixEndlines --help" for the usage message.
     """
-    LESSONS_PATH = os.path.join(LESSONS_TOP, LESSON_SETS[0])
+    LESSONS_PATH = os.path.join(LESSON_LOCATOR_DATA, LESSON_SETS[0])
     ORIGINAL_LESSONS_PATH = os.path.join(LESSONS_PATH, "original")
 
     print("Fixing original lesson %s..." % ORIGINAL_LESSONS_PATH)

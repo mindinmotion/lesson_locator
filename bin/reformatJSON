@@ -1,17 +1,9 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
 """
 reformatJSON
 
-Copyright (c) 2015 Kevin Cureton/Nik Gervae
+Copyright (c) 2015 Mind In Motion
 """
-# ---------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------
-# TODO
-#
-# ---------------------------------------------------------------------------------------------
-
 # ---------------------------------------------------------------------------------------------
 # Imports
 # ---------------------------------------------------------------------------------------------
@@ -22,12 +14,14 @@ import re
 import string
 import sys
 
+LESSON_LOCATOR_ROOT = os.path.normpath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
+sys.path.append(os.path.join(LESSON_LOCATOR_ROOT, "python"))
 
 # ---------------------------------------------------------------------------------------------
 # Globals
 # ---------------------------------------------------------------------------------------------
 
-LESSONS_TOP = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), "../data"))
+LESSON_LOCATOR_DATA = os.path.join(LESSON_LOCATOR_ROOT, "data")
 LESSON_SETS = [
     "alexander_yanai"
 ]
@@ -39,7 +33,7 @@ def main():
     """
     Please run "reformatJSON --help" for the usage message.
     """
-    LESSONS_PATH = os.path.join(LESSONS_TOP, LESSON_SETS[0])
+    LESSONS_PATH = os.path.join(LESSON_LOCATOR_DATA, LESSON_SETS[0])
 
     print("Examining lessons %s..." % LESSONS_PATH)
 
