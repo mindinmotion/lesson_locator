@@ -25,9 +25,6 @@ The source code is layout out as follows:
         The Ansible setup for creating a virtual machine and install the lesson locater
         web application, including configing the OS web server properly.
 
-    etc/
-        Any configuration files needed by the lesson locator.
-
     python/
         Python modules used by the lesson locator bin tools and site scripts.
 
